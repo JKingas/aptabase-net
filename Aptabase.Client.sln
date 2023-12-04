@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingas.Aptabase.Client", "Kingas.Aptabase.Client\Kingas.Aptabase.Client.csproj", "{AF96A032-7FA2-422F-ABB2-83AEC86B4722}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF96A032-7FA2-422F-ABB2-83AEC86B4722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF96A032-7FA2-422F-ABB2-83AEC86B4722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF96A032-7FA2-422F-ABB2-83AEC86B4722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF96A032-7FA2-422F-ABB2-83AEC86B4722}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C696E39C-8A3B-4FE3-BBB1-95FE24E67DCD}
+	EndGlobalSection
+EndGlobal
