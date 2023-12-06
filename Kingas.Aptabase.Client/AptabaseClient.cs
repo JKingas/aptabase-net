@@ -137,19 +137,21 @@ public class AptabaseClient : IAptabaseClient
             if (_logger?.IsEnabled(LogLevel.Trace) == true)
                 _logger?.LogTrace("Post event data {EventData} to {Path}", eventData, path);
             var response = await _http.PostAsync(path, body);
+            if (_logger?.IsEnabled(LogLevel.Trace) == true)
+                _logger?.LogTrace("Response status code {StatusCode}", response.StatusCode);
             if (!response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 _logger?.LogError("Failed to perform TrackEvent due to {StatusCode} and response body {Body}", response.StatusCode, responseBody);
             }
-
-            if (_logger?.IsEnabled(LogLevel.Trace) == true)
-                _logger?.LogTrace("End {Method}({EventName})", nameof(SendEvent), eventName);
         }
 		catch (Exception ex)
         {
             _logger?.LogError(ex, "Failed to perform TrackEvent");
         }
+
+        if (_logger?.IsEnabled(LogLevel.Trace) == true)
+            _logger?.LogTrace("End {Method}({EventName})", nameof(SendEvent), eventName);
     }
 
     public static string NewSessionId()
