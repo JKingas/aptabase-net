@@ -21,8 +21,8 @@ internal class SystemInfo
 	{
         this.IsDebug = IsInDebugMode(assembly);
         this.OsName = GetOsName();
-        this.OsVersion = Clamp(GetOsVersion(), 30);
-        this.SdkVersion = Clamp(GetSdkVersion(), 40);
+        this.OsVersion = GetOsVersion();
+        this.SdkVersion = GetSdkVersion();
         this.Locale = Thread.CurrentThread.CurrentCulture.Name;
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version;
         this.AppVersion = appVersion?.ToString() ?? string.Empty;
@@ -71,13 +71,5 @@ internal class SystemInfo
         var sdkVersion = _pkgVersion?.Version ?? "UNKNOWN";
         var sdkName = "Kingas.Aptabase";
         return $"{sdkName}@{sdkVersion}";
-    }
-
-    private string Clamp(string value, int length)
-    {
-        if (value.Length > length)
-            return value.Substring(0, length);
-        
-        return value;
     }
 }
