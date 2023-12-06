@@ -1,6 +1,8 @@
 ![Aptabase](https://raw.githubusercontent.com/aptabase/aptabase-com/main/public/og.png)
 
-# MAUI SDK for Aptabase
+# .NET SDK for Aptabase
+
+THIS IS FORK OF https://github.com/aptabase/aptabase-maui TO REDUCE MAUI DEPENDENCY.
 
 Instrument your apps with Aptabase, an Open Source, Privacy-First and, Simple Analytics for Mobile, Desktop and, Web Apps.
 
@@ -9,27 +11,25 @@ Instrument your apps with Aptabase, an Open Source, Privacy-First and, Simple An
 Start by adding the Aptabase NuGet package to your .csproj:
 
 ```xml
-<PackageReference Include="Aptabase.Maui" Version="0.0.7" />
+<PackageReference Include="Kingas.Aptabase" Version="0.3" />
 ```
 
 ## Usage
 
 First, you need to get your `App Key` from Aptabase, you can find it in the `Instructions` menu on the left side menu.
 
-Change your `MauiProgram.cs` to add Aptabase to the build pipeline:
+Need to configure `IServiceCollection` like:
 
 ```csharp
-public static MauiApp CreateMauiApp()
+services.AddSingleton<IAptabaseClient>(x =>
 {
-    var builder = MauiApp.CreateBuilder();
-    builder
-        .UseMauiApp<App>()
-        .UseAptabase("<YOUR_APP_KEY>") // 👈 this is where you enter your App Key
-    ...
-}
+    var appKey = "<YOUR_APP_KEY>"; // // 👈 this is where you enter your App Key or read from config
+    var logger = x.GetService<ILogger<AptabaseClient>>();
+    return new AptabaseClient(appKey, null, logger);
+});
 ```
 
-The `UseAptabase` method will add the `IAptabaseClient` to your dependency injection container, allowing you to use it in your pages and view models.
+You will add the `IAptabaseClient` to your dependency injection container, and this allowing you to use it in your pages and view models.
 
 As an example, to track events in your `MainPage`, you first need to add it to the DI Container in `MauiProgram.cs`:
 
