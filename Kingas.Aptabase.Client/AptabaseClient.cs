@@ -73,7 +73,7 @@ public class AptabaseClient : IAptabaseClient
                 return null;
             }
 
-            return options.Host;
+            return options?.Host;
         }
 
         return _hosts[region];
