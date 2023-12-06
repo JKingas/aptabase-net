@@ -6,8 +6,8 @@ namespace Aptabase;
 
 internal class SystemInfo
 {
-    private static string _pkgVersion = typeof(AptabaseClient).Assembly
-        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+    private static readonly AssemblyFileVersionAttribute? _pkgVersion =
+        typeof(AptabaseClient).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
 
     public bool IsDebug { get; }
     public string OsName { get; }
@@ -21,14 +21,14 @@ internal class SystemInfo
 	{
         this.IsDebug = IsInDebugMode(assembly);
         this.OsName = GetOsName();
-        this.OsVersion = GetOsVersion();
-        this.SdkVersion = $"Kingas.Aptabase@{_pkgVersion}";
+        this.OsVersion = Clamp(GetOsVersion(), 30);
+        this.SdkVersion = Clamp(GetSdkVersion(), 40);
         this.Locale = Thread.CurrentThread.CurrentCulture.Name;
         var appVersion = Assembly.GetEntryAssembly()?.GetName().Version;
         this.AppVersion = appVersion?.ToString() ?? string.Empty;
         this.AppBuildNumber = (appVersion?.Build ?? 0).ToString();
     }
-        
+
     private static bool IsInDebugMode(Assembly? assembly)
     {
         if (assembly == null)
@@ -63,7 +63,21 @@ internal class SystemInfo
 
     private string GetOsVersion()
     {
-        return Environment.OSVersion.VersionString;
+        return Environment.OSVersion.Version.ToString();
+    }
+
+    private string GetSdkVersion()
+    {
+        var sdkVersion = _pkgVersion?.Version ?? "UNKNOWN";
+        var sdkName = "Kingas.Aptabase";
+        return $"{sdkName}@{sdkVersion}";
+    }
+
+    private string Clamp(string value, int length)
+    {
+        if (value.Length > length)
+            return value.Substring(0, length);
+        
+        return value;
     }
 }
-
