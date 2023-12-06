@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <PackageId>Kingas.Aptabase</PackageId>
-    <Version>0.2</Version>
+    <Version>0.3</Version>
     <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
 		<Description>.NET Client for Aptabase: Open Source, Privacy-First and Simple Analytics for .NET</Description>
 		<Authors>Pavel Tsimokhautsau</Authors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/JKingas/aptabase-net</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>analytics, privacy, sdk, telemetry</PackageTags>

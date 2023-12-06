@@ -59,6 +59,8 @@ public class AptabaseClient : IAptabaseClient
         _http = new();
         _http.BaseAddress = new Uri(baseUrl);
 		_http.DefaultRequestHeaders.Add("App-Key", appKey);
+        if (_logger?.IsEnabled(LogLevel.Trace) == true)
+            _logger?.LogTrace("Instantiate with base url {BaseUrl}.", baseUrl);
     }
 
     private string? GetBaseUrl(string region, InitOptions? options)
@@ -99,6 +101,8 @@ public class AptabaseClient : IAptabaseClient
 
     private async Task SendEvent(string eventName, Dictionary<string, object>? props)
     {
+        if (_logger?.IsEnabled(LogLevel.Trace) == true)
+            _logger?.LogTrace("Begin {Method}({EventName})", nameof(SendEvent), eventName);
         if (_http is null) return;
 
         try
@@ -128,12 +132,18 @@ public class AptabaseClient : IAptabaseClient
                 props
             });
 
-			var response = await _http.PostAsync("/api/v0/event", body);
+            var path = "/api/v0/event";
+            if (_logger?.IsEnabled(LogLevel.Trace) == true)
+                _logger?.LogTrace("Post event body {Body} to {Path}", body, path);
+            var response = await _http.PostAsync(path, body);
             if (!response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 _logger?.LogError("Failed to perform TrackEvent due to {StatusCode} and response body {Body}", response.StatusCode, responseBody);
             }
+
+            if (_logger?.IsEnabled(LogLevel.Trace) == true)
+                _logger?.LogTrace("End {Method}({EventName})", nameof(SendEvent), eventName);
         }
 		catch (Exception ex)
         {
@@ -148,4 +158,3 @@ public class AptabaseClient : IAptabaseClient
         return (epochInSeconds * 100000000 + random).ToString();
     }
 }
-
