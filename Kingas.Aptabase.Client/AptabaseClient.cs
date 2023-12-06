@@ -114,7 +114,7 @@ public class AptabaseClient : IAptabaseClient
 
             _lastTouched = now;
 
-            var body = JsonContent.Create(new
+            var eventData = new
             {
                 timestamp = DateTime.UtcNow.ToString("o"),
                 sessionId = _sessionId,
@@ -130,11 +130,12 @@ public class AptabaseClient : IAptabaseClient
                     sdkVersion = _sysInfo.SdkVersion,
                 },
                 props
-            });
+            };
+            var body = JsonContent.Create(eventData);
 
             var path = "/api/v0/event";
             if (_logger?.IsEnabled(LogLevel.Trace) == true)
-                _logger?.LogTrace("Post event body {Body} to {Path}", body, path);
+                _logger?.LogTrace("Post event data {EventData} to {Path}", eventData, path);
             var response = await _http.PostAsync(path, body);
             if (!response.IsSuccessStatusCode)
             {
